@@ -74,12 +74,11 @@ with st.form('input form'):
 # Prediction
 # Combine ML prediction with pH logic
 if submitted:
-    input_data = np.array([[ph, hardness, solids, chloramines, sulfate, conductivity, organic_carbon, trihalomethanes, turbidity]])
+    input_data = np.array([[ph,hardness,solids,chloramines,sulfate,conductivity,organic_carbon,trihalomethanes,turbidity]])
+
     prediction = loaded_model.predict(input_data)
 
-    if prediction[0] == 1 and 6 <= ph <= 8:
-        st.success('✅ Prediction: Safe to drink (Model + pH check passed)')
-    elif prediction[0] == 1 and not (6 <= ph <= 8):
-        st.warning('⚠️ Model says safe, but pH is out of range (6–8). Double-check water quality.')
+    if (prediction[0] == 1):
+        st.success('Safe to drink')
     else:
-        st.error('❌ Not safe to drink ')
+        st.error('Not safe')
